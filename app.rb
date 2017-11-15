@@ -3,6 +3,28 @@ require 'net/http'
 require 'uri'
 require 'json'
 
+options = { :address              => "smtp.gmail.com",
+	:port                 => 587,
+	:domain               => ENV['domain'],
+	:user_name            => ENV['email'],
+	:password             => ENV['email_pass'],
+	:authentication       => 'plain',
+	:enable_starttls_auto => true  }
+
+Mail.defaults do
+	delivery_method :smtp, options
+end
+
+
+
+get '/' do
+
+	erb :index
+	
+end
+
+
+
 get '/jonsays' do
 	#You can do curl requests in a few different ways in Ruby this is an example using backticks to do a simple curl request, Here we are getting the current list of what Jon says.
 	currentsaying = `curl -X GET https://bsi7688wf2.execute-api.us-east-1.amazonaws.com/dev/todos`
@@ -28,4 +50,50 @@ post '/jonsays' do
 		http.request(request)
 	end
 redirect 'jonsays'
+end
+
+get '/whoseshot' do
+
+	erb :whoseshot
+
+end
+
+post '/whoseshot' do
+	
+	redirect 'whoseshot'
+end
+
+
+get '/contact' do
+
+erb :contact
+
+end
+
+
+post '/contact' do
+
+	name = params[:name]
+	phone = params[:phone]
+	email = params[:email]
+	message = params[:message]
+	reason = params[:reason]
+	sum = params[:sum]
+	robot = params[:robot]
+	email_body = erb :emailcontact, :layout => false, locals: {name: name, phone: phone, email: email, message: message, reason: reason }
+	if robot == sum
+
+		Mail.deliver do
+			from      "#{email}"
+			to        "joseph.p.mckenzie84@gmail.com",
+			bcc       "#{email}",
+			subject   "Contact Message for '#{reason}'"
+			content_type 'text/html; charset=UTF-8'
+			body      email_body
+		end
+
+		redirect '/contact?deliver=success'
+	else
+		redirect '/contact?deliver=error'
+	end
 end
