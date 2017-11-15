@@ -65,10 +65,17 @@ post '/whoseshot' do
 end
 
 
-get '/contact' do
+get '/contact'do
+	#allows protection against robot spammers
+	thanks = params[:thanks] || ''
+	num1 = rand(9)
+	num2 = rand(9)
+	sum = num1 + num2
+	deliver = params[:deliver] || ''
+	messages = {'' => '', 'success' => "Thank you for your message. We'll get back to you shortly.", 'error' => 'Sorry, there was a problem delivering your message.'}
+	message = messages[deliver]
 
-erb :contact
-
+	erb :contact, :locals => {thanks: thanks, num1: num1, num2: num2, sum: sum, message: message }
 end
 
 
