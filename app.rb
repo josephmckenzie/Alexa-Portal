@@ -3,6 +3,7 @@ require 'net/http'
 require 'uri'
 require 'json'
 require 'mail'
+load './local_env.rb' if File.exist?('./local_env.rb')
 
 options = { :address              => "smtp.gmail.com",
 	:port                 => 587,
@@ -64,7 +65,6 @@ post '/whoseshot' do
 	redirect 'whoseshot'
 end
 
-
 get '/contact'do
 	#allows protection against robot spammers
 	thanks = params[:thanks] || ''
@@ -78,7 +78,6 @@ get '/contact'do
 	erb :contact, :locals => {thanks: thanks, num1: num1, num2: num2, sum: sum, message: message }
 end
 
-
 post '/contact' do
 
 	name = params[:name]
@@ -88,13 +87,13 @@ post '/contact' do
 	reason = params[:reason]
 	sum = params[:sum]
 	robot = params[:robot]
+	
 	email_body = erb :emailcontact, :layout => false, locals: {name: name, phone: phone, email: email, message: message, reason: reason }
 	if robot == sum
 
 		Mail.deliver do
 			from      "#{email}"
 			to        "joseph.p.mckenzie84@gmail.com"
-			bcc       "#{email}"
 			subject   "Contact Message for '#{reason}'"
 			content_type 'text/html; charset=UTF-8'
 			body      email_body
