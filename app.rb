@@ -2,6 +2,7 @@ require 'sinatra'
 require 'net/http'
 require 'uri'
 require 'json'
+require 'mail'
 
 options = { :address              => "smtp.gmail.com",
 	:port                 => 587,

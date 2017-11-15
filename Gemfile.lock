@@ -1,6 +1,9 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    mail (2.7.0)
+      mini_mime (>= 0.1.1)
+    mini_mime (1.0.0)
     rack (1.6.8)
     rack-protection (1.5.3)
       rack
@@ -14,10 +17,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  mail
   sinatra (~> 1.4.7)
 
 RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.15.4
+   1.16.0
