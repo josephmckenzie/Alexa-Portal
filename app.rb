@@ -85,8 +85,8 @@ post '/contact' do
 
 		Mail.deliver do
 			from      "#{email}"
-			to        "joseph.p.mckenzie84@gmail.com",
-			bcc       "#{email}",
+			to        "joseph.p.mckenzie84@gmail.com"
+			bcc       "#{email}"
 			subject   "Contact Message for '#{reason}'"
 			content_type 'text/html; charset=UTF-8'
 			body      email_body
