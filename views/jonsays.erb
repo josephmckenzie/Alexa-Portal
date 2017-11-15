@@ -1,0 +1,21 @@
+
+<body>
+<div style="text-align:centered;text-align: center;">
+	<br><br>
+	<h3> Jon Say's</h3>
+
+	<img src="images/alexafunny.jpg" width="800rem">
+	<h5>A current list of Jon Says phrases </h5>
+<%currentsaying["Items"].each do |f| %>
+<%=f["name"]%><br>
+<%end%>
+	<br>
+	<p>Upload your very own Jon Says phrase today</p>
+	<p>*** WARNING THIS COULD GET YOU FIRED ***</p>
+<form action="/uploadnewsaying" method="post">
+<input type="text" name="saying">
+	<input type="submit">
+</form>
+	</div>
+
+</body>
