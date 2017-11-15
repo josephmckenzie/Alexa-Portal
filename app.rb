@@ -3,8 +3,15 @@ require 'net/http'
 require 'uri'
 require 'json'
 require 'mail'
+require_relative 'curl_requests.rb'
+enable :sessions
 load './local_env.rb' if File.exist?('./local_env.rb')
 
+def authentication_required
+	redirect to('/login') unless session[:user]
+end
+
+curl_requests = Curlrequests.new
 options = { :address              => "smtp.gmail.com",
 	:port                 => 587,
 	:domain               => ENV['domain'],
@@ -25,12 +32,13 @@ get '/' do
 	
 end
 
-
-
 get '/jonsays' do
-	#You can do curl requests in a few different ways in Ruby this is an example using backticks to do a simple curl request, Here we are getting the current list of what Jon says.
-	currentsaying = `curl -X GET https://bsi7688wf2.execute-api.us-east-1.amazonaws.com/dev/todos`
-	parsed = JSON.parse(currentsaying)
+	
+
+
+	
+	parsed = curl_requests.get_request
+	
 	erb :jonsays, :locals => {:currentsaying => parsed}
 end
 
@@ -38,20 +46,8 @@ end
 post '/jonsays' do
 
 	saying = params[:saying]
-	#this is another way to make your curl requests in Ruby , Here we are using the net/http gem to make a post request to post a new Jon Says.
-	uri = URI.parse("https://bsi7688wf2.execute-api.us-east-1.amazonaws.com/dev/todos")
-	request = Net::HTTP::Post.new(uri)
-	request.content_type = "application/json"
-	request.body = JSON.dump({
-		"text" => "#{saying}"
-		})
-	req_options = {
-		use_ssl: uri.scheme == "https",
-		}
-	response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-		http.request(request)
-	end
-redirect 'jonsays'
+  curl_requests.post_request(saying)
+	redirect 'jonsays'
 end
 
 get '/whoseshot' do
@@ -103,4 +99,63 @@ post '/contact' do
 	else
 		redirect '/contact?deliver=error'
 	end
+end
+
+get '/login' do
+	invalid = params[:invalid] || ''
+	erb :login, :locals => {:message => "", :invalid => invalid}
+end
+
+
+post '/login' do
+	user_email = params[:form_email]
+	user_password = params[:form_password]
+#	db = connection()
+#	sql = "SELECT email, password FROM admin_users WHERE email = '#{user_email}'"
+#	user = db.exec(sql)
+#
+#	if user.num_tuples.zero?
+#		redirect '/login?invalid=Invalid Email or Password'
+#	end
+#
+#	begin
+#		db_pass = user[0]['password']
+#		pass = BCrypt::Password.new(db_pass)
+#	rescue BCrypt::Errors::InvalidHash
+#		redirect '/login?invalid=Invalid Email or Password'
+#	end 
+
+
+#	db_pass = user[0]['password']
+#	pass = BCrypt::Password.new(db_pass)
+
+	if ENV['password'] != user_password || ENV['username'] != user_email
+		redirect '/login?invalid=Invalid Email or Password'
+	else
+		session[:user] = user_email
+		redirect to '/admin'
+		db.close
+	end
+end
+
+get '/admin' do
+		authentication_required
+	parsed = curl_requests.get_request
+	
+	
+	erb :admin, :locals => {:currentsaying => parsed}
+
+end
+
+get '/deletephrase' do
+	
+	id = params[:id]
+	 curl_requests.delete_request(id)
+	
+	redirect 'admin'
+end
+
+get '/logout' do
+	session[:user] = nil
+	redirect '/'
 end

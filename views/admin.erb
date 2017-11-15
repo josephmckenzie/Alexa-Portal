@@ -1,0 +1,24 @@
+
+<body>
+<div style="text-align:centered;text-align: center;">
+	<br><br>
+	<h3> Joe's Alexa Portal Admin Page</h3>
+
+	<img src="images/alexa.png" width="200rem">
+	<br><br>
+	<form action="/deletephrase" method="post">
+		<h5>A current list of Jon Says phrases </h5>
+<%currentsaying["Items"].each do |f| %>
+		<a href="/deletephrase?id=<%=f["id"]%>" >Delete Me </a>
+ <%=f["name"]%><br>
+<%end%>
+		<br><br>
+<label for="deletephrase">Delete a Jon Says Phrase</label>
+		<input type="text" name="deletephrase" id="deletephrase">
+		<input type="submit">
+	</form>
+	
+
+	</div>
+
+</body>
