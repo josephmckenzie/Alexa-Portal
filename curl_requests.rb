@@ -4,7 +4,7 @@ require 'json'
 #
 class Curlrequests
 		
-		def post_request(saying)
+		def post_request(jonsays,skill,personsname,shotname)
 
 		
 				#this is another way to make your curl requests in Ruby , Here we are using the net/http gem to make a post request to post a new Jon Says.
@@ -12,7 +12,10 @@ class Curlrequests
 		request = Net::HTTP::Post.new(uri)
 		request.content_type = "application/json"
 		request.body = JSON.dump({
-			"text" => "#{saying}"
+			"jonsays" => jonsays,
+			"skill" => skill,
+			"personsname" => personsname,
+			"shotname" => shotname
 			})
 		req_options = {
 			use_ssl: uri.scheme == "https",

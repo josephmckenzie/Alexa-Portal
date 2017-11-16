@@ -6,14 +6,14 @@
 
 	<img src="images/alexafunny.jpg" width="800rem">
 	<h5>A current list of Jon Says phrases </h5>
-<%currentsaying["Items"].each do |f| %>
-<%=f["name"]%><br>
+<%currentsaying.each do |f| %>
+<%=f["jonsays"]%><br>
 <%end%>
 	<br>
 	<p>Upload your very own Jon Says phrase today</p>
 	<p>*** WARNING THIS COULD GET YOU FIRED ***</p>
 <form action="/jonsays" method="post">
-<input type="text" name="saying">
+<input type="text" name="jonsays">
 	<input type="submit">
 </form>
 	</div>

@@ -45,18 +45,28 @@ end
 
 post '/jonsays' do
 
-	saying = params[:saying]
-  curl_requests.post_request(saying)
+	jonsays = params[:jonsays]
+  post_request = curl_requests.post_request(jonsays,"Jon Says")
+
 	redirect 'jonsays'
 end
 
 get '/whoseshot' do
-
-	erb :whoseshot
+parsed = curl_requests.get_request
+	erb :whoseshot, :locals => {:currentsaying => parsed}
 
 end
 
 post '/whoseshot' do
+	personsname = params[:personsname]
+	puts personsname
+  shotname = params[:shotname]
+	puts shotname
+	jonsays = nil
+	puts jonsays
+	post_request = curl_requests.post_request(jonsays,"Whose Shot",personsname,shotname)
+
+	
 	
 	redirect 'whoseshot'
 end
@@ -154,6 +164,8 @@ get '/deletephrase' do
 	
 	redirect 'admin'
 end
+
+
 
 get '/logout' do
 	session[:user] = nil

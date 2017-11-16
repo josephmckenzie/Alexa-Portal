@@ -1,24 +1,26 @@
-
 <body>
-<div style="text-align:centered;text-align: center;">
-	<br><br>
-	<h3> Joe's Alexa Portal Admin Page</h3>
-
-	<img src="images/alexa.png" width="200rem">
-	<br><br>
-	<form action="/deletephrase" method="post">
-		<h5>A current list of Jon Says phrases </h5>
-<%currentsaying["Items"].each do |f| %>
-		<a href="/deletephrase?id=<%=f["id"]%>" >Delete Me </a>
- <%=f["name"]%><br>
-<%end%>
-		<br><br>
-<label for="deletephrase">Delete a Jon Says Phrase</label>
-		<input type="text" name="deletephrase" id="deletephrase">
-		<input type="submit">
-	</form>
-	
-
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div style="text-align:centered;text-align: center;">
+					<br><br>
+					<h3> Joe's Alexa Portal Admin Page</h3>
+					<img src="images/alexa.png" width="200rem">
+					<br><br>
+					<hr>
+					<h3>Jon Says</h3>
+					<div>
+						<%currentsaying["Items"].each do |f| %>
+						<% if f["jonsays"] == true %>
+						<%=f["name"]%> <a href="/deletephrase?id=<%=f["id"]%>" >Delete Me </a><br>
+						<%end%>
+						<%end%>
+					</div>
+					<br><br>
+					<hr>
+					<h3> Whose Shot, is it anyway?</h3>
+				</div>
+			</div>
+		</div>
 	</div>
-
 </body>
