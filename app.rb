@@ -46,7 +46,9 @@ end
 post '/jonsays' do
 
 	jonsays = params[:jonsays]
-  post_request = curl_requests.post_request(jonsays,"Jon Says")
+	personsname = nil
+	shotname= nil
+  post_request = curl_requests.post_request(jonsays,"Jon Says",personsname,shotname)
 
 	redirect 'jonsays'
 end
