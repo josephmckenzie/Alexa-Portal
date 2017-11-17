@@ -7,8 +7,10 @@
 	<img src="images/alexafunny.jpg" width="800rem">
 	<h5>A current list of Jon Says phrases </h5>
 <%currentsaying.each do |f| %>
+	<% if f["jonsays"] != nil %>
 <%=f["jonsays"]%><br>
 <%end%>
+	<%end%>
 	<br>
 	<p>Upload your very own Jon Says phrase today</p>
 	<p>*** WARNING THIS COULD GET YOU FIRED ***</p>

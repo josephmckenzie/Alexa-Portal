@@ -8,8 +8,11 @@
 					<img src="images/shots-shots-shots.jpg" width="300rem">
 					<div>			
 						<h5>A current list of People drinking. </h5>
-<%currentsaying.each do |f| %>
-						<%=f["personsname"]%><br>
+						<%currentsaying.each do |f| %>
+							<% if f["personsname"] != nil %>
+								<%=f["personsname"]%>
+						    <br>
+							<%end%>
 						<%end%>
 						<br>
 						<p>Enter a name to add to the list of people drinking.</p>
@@ -22,8 +25,10 @@
 					<br><br><br><br>
 					<div>
 						<h5>A current list of shots to drink.</h5>
-						<%currentsaying.each do |f| %>
-						<%=f["shotname"]%><br>
+						<% currentsaying.each do |f| %>
+							<% if f["shotname"] != nil %>
+								<%=f["shotname"]%><br>
+							<%end%>
 						<%end%>
 						<br>
 					<p>Enter a name to add to the list of people drinking.</p>
